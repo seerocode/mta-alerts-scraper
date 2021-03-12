@@ -7,8 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import pandas as pd
-import numpy as np
-from numpy import random
 import time
 from random import randint
 import sys
@@ -34,7 +32,14 @@ logging.getLogger('').addHandler(console)
 def get_page(year):
     opts = Options()
     opts.headless = True
-    driver = webdriver.Firefox(options=opts)
+    driver = webdriver.Firefox(
+        options=opts, executable_path="/usr/local/bin/geckodriver")
+    # chrome_options = Options()
+    # chrome_options.add_argument("--no-sandbox")
+    # chrome_options.add_argument("--headless")
+    # # chrome_options.binary_location("/usr/lib/chromium/")
+    # driver = webdriver.Chrome(options=chrome_options)
+
     logging.info('Firefox web driver set!')
 
     url = "https://www.mymtaalerts.com/archive"
