@@ -11,8 +11,9 @@ import time
 from random import randint
 import sys
 import logging
+from sqlalchemy import create_engine
 
-# set up logging to file - see previous section for more details
+########## LOGGING ##########
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M',
@@ -28,17 +29,16 @@ console.setFormatter(formatter)
 # add the handler to the root logger
 logging.getLogger('').addHandler(console)
 
+# Create a new database file:
+engine = create_engine('sqlite:///alerts.db', echo=True)
+sqlite_connection = engine.connect()
+
 
 def get_page(year):
     opts = Options()
     opts.headless = True
     driver = webdriver.Firefox(
         options=opts, executable_path="/usr/local/bin/geckodriver")
-    # chrome_options = Options()
-    # chrome_options.add_argument("--no-sandbox")
-    # chrome_options.add_argument("--headless")
-    # # chrome_options.binary_location("/usr/lib/chromium/")
-    # driver = webdriver.Chrome(options=chrome_options)
 
     logging.info('Firefox web driver set!')
 
@@ -94,16 +94,19 @@ def get_page(year):
         logging.info("Saving data for {}".format(year))
         save_data(html, year)
         logging.info("Data saved! Attempting next page.")
-        next_page_button.click()
 
         try:
             WebDriverWait(driver, timeout).until(
-                EC.visibility_of_element_located((By.ID, table_id)))
+                EC.visibility_of_element_located((By.XPATH, "//button[contains(@title,'Next Page')]")))
         except TimeoutException:
             driver.quit()
 
         next_page_button = driver.find_element_by_xpath(
             "//button[contains(@title,'Next Page')]")
+        next_page_button.click()
+
+    sqlite_connection.close()
+    print("Data scraping for {} complete!".format(year))
 
 
 def save_data(html, year):
@@ -120,18 +123,22 @@ def save_data(html, year):
     filtered_alerts = alerts[alerts['Subject'].str.contains(
         '|'.join(values), na=False, case=False)]
 
-    print(filtered_alerts)
     if filtered_alerts.size > 0:
-        filtered_alerts.to_csv("alerts-{}".format(year) + '.csv', mode='a')
+        print(filtered_alerts)
+        # filtered_alerts.to_csv("alerts-{}".format(year) + '.csv', mode='a')
+        filtered_alerts.to_sql(
+            "mtaalerts", sqlite_connection, if_exists='append')
     else:
         print("No NYCT Subway data found for dates")
 
 
 def main():
-    user_input = len(sys.argv[1])
-    if user_input < 1:
-        SystemExit("Please enter a year")
-    get_page(sys.argv[1])
+    user_input = len(sys.argv)
+    if user_input < 2:
+        print("Please enter a year")
+        SystemExit()
+    else:
+        get_page(sys.argv[1])
 
 
 if __name__ == "__main__":
