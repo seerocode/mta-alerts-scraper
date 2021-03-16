@@ -30,7 +30,7 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
 # Create a new database file:
-engine = create_engine('sqlite:///alerts.db', echo=True)
+engine = create_engine('sqlite:///db/alerts.db', echo=True)
 sqlite_connection = engine.connect()
 
 
@@ -87,6 +87,10 @@ def get_page(year):
     is_not_last_page_of_results = False if next_page_button.get_attribute(
         'onclick') == last_page_command else True
 
+    # pages_holder = driver.find_element_by_class_name(
+    #     "//div[@class='rgInfoPart']//strong")
+    # print(pages_holder.text)
+
     while is_not_last_page_of_results:
         logging.info("Still going! Not the end of results yet.")
         html = driver.page_source
@@ -106,6 +110,7 @@ def get_page(year):
         next_page_button.click()
 
     sqlite_connection.close()
+    driver.quit()
     print("Data scraping for {} complete!".format(year))
 
 
