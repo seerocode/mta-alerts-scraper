@@ -12,6 +12,7 @@ from random import randint
 import sys
 import logging
 from sqlalchemy import create_engine
+from tqdm import tqdm
 
 ########## LOGGING ##########
 logging.basicConfig(level=logging.INFO,
@@ -81,33 +82,39 @@ def get_page(year):
     submit_button = "ctl00_ContentPlaceHolder1_btnGetData"
     driver.find_element_by_id(submit_button).click()
 
-    next_page_button = driver.find_element_by_xpath(
-        "//button[contains(@title,'Next Page')]")
-    last_page_command = "return false;"
-    is_not_last_page_of_results = False if next_page_button.get_attribute(
-        'onclick') == last_page_command else True
+    time.sleep(10)
 
-    # pages_holder = driver.find_element_by_class_name(
-    #     "//div[@class='rgInfoPart']//strong")
-    # print(pages_holder.text)
+    # next_page_button = driver.find_element_by_xpath(
+    #     "//button[contains(@title, 'Next Page')]")
+    # last_page_command = "return false;"
+    # is_not_last_page_of_results = False if next_page_button.get_attribute(
+    #     'onclick') == last_page_command else True
 
-    while is_not_last_page_of_results:
-        logging.info("Still going! Not the end of results yet.")
+    pages_holder = driver.find_element_by_xpath(
+        "//div[contains(@class, 'rgInfoPart')]")
+    pages_html = BeautifulSoup(pages_holder.get_attribute('innerHTML'), 'lxml')
+    pages = int(pages_html.select('strong:nth-child(2)')[0].get_text())
+
+    # while is_not_last_page_of_results:
+    for page in tqdm(range(pages)):
+        logging.info("You are on page number {}".format(page + 1))
         html = driver.page_source
         time.sleep(randint(5, 15))
         logging.info("Saving data for {}".format(year))
         save_data(html, year)
         logging.info("Data saved! Attempting next page.")
 
-        try:
-            WebDriverWait(driver, timeout).until(
-                EC.visibility_of_element_located((By.XPATH, "//button[contains(@title,'Next Page')]")))
-        except TimeoutException:
-            driver.quit()
+        # wait until rgcurrent page is next page
+        # try:
+        #     WebDriverWait(driver, timeout).until(
+        #         EC.visibility_of_element_located((By.XPATH, "//button[contains(@title,'Next Page')]")))
+        # except TimeoutException:
+        #     driver.quit()
 
         next_page_button = driver.find_element_by_xpath(
             "//button[contains(@title,'Next Page')]")
         next_page_button.click()
+        time.sleep(10)
 
     sqlite_connection.close()
     driver.quit()
