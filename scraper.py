@@ -114,7 +114,7 @@ def get_page(year):
         next_page_button = driver.find_element_by_xpath(
             "//button[contains(@title,'Next Page')]")
         next_page_button.click()
-        time.sleep(10)
+        time.sleep(15)
 
     sqlite_connection.close()
     driver.quit()
