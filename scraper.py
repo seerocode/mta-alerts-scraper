@@ -82,20 +82,14 @@ def get_page(year):
     submit_button = "ctl00_ContentPlaceHolder1_btnGetData"
     driver.find_element_by_id(submit_button).click()
 
+    # Wait for page to load
     time.sleep(10)
-
-    # next_page_button = driver.find_element_by_xpath(
-    #     "//button[contains(@title, 'Next Page')]")
-    # last_page_command = "return false;"
-    # is_not_last_page_of_results = False if next_page_button.get_attribute(
-    #     'onclick') == last_page_command else True
 
     pages_holder = driver.find_element_by_xpath(
         "//div[contains(@class, 'rgInfoPart')]")
     pages_html = BeautifulSoup(pages_holder.get_attribute('innerHTML'), 'lxml')
     pages = int(pages_html.select('strong:nth-child(2)')[0].get_text())
 
-    # while is_not_last_page_of_results:
     for page in tqdm(range(pages)):
         logging.info("You are on page number {}".format(page + 1))
         html = driver.page_source
@@ -103,13 +97,6 @@ def get_page(year):
         logging.info("Saving data for {}".format(year))
         save_data(html, year)
         logging.info("Data saved! Attempting next page.")
-
-        # wait until rgcurrent page is next page
-        # try:
-        #     WebDriverWait(driver, timeout).until(
-        #         EC.visibility_of_element_located((By.XPATH, "//button[contains(@title,'Next Page')]")))
-        # except TimeoutException:
-        #     driver.quit()
 
         next_page_button = driver.find_element_by_xpath(
             "//button[contains(@title,'Next Page')]")
@@ -136,8 +123,7 @@ def save_data(html, year):
         '|'.join(values), na=False, case=False)]
 
     if filtered_alerts.size > 0:
-        print(filtered_alerts)
-        # filtered_alerts.to_csv("alerts-{}".format(year) + '.csv', mode='a')
+        logging.info(filtered_alerts)
         filtered_alerts.to_sql(
             "mtaalerts", sqlite_connection, if_exists='append')
     else:
