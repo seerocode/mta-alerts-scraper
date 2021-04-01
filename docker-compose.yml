@@ -1,5 +1,0 @@
-services:
-  scraper:
-    build: .
-    volumes:
-        - ./db:/app/db
