@@ -4,7 +4,7 @@ library(lubridate)
 library(stringr)
 
 ## Connect to db
-con <- dbConnect(drv=RSQLite::SQLite(), dbname="alerts.db")
+con <- dbConnect(drv=RSQLite::SQLite(), dbname="./db-backup/alerts-complete-2018-2020.db")
 
 alerts <- dbReadTable(con, "mtaalerts")
 alerts <- select(alerts, -c(index, Agency))
