@@ -18,6 +18,12 @@ This scraper was built to collect MTA alerts escalator and elevator outage data 
 
 ## Installation and Setup Instructions
 
+### R Markdown Notebook
+
+If you want to jump straight into the data, download RStudio desktop from [here](https://www.rstudio.com/products/rstudio/download/#download) if you don't have it already and open the `mta-alerts.Rmd` notebook in the `analysis` directory to run the notebook with the data for outages.
+
+Alternatively, you can open the CSV file in your preferred CSV editor but be warned that it is 220,000+ rows of data.
+
 ### Scraper
 
 📝**NOTE:** *The required data for this project has already been scraped and is available in the `analysis` directory as well as back up database files in the `db-backup` directory. The scraper is intentionally slow to prevent your IP from getting blocked. Each request lasts anywhere between 35 and 45 seconds and therefore should take about **24 hours** to scrape a year's worth of data.*
@@ -87,9 +93,3 @@ I strongly recommend that if you **MUST** run this scraper, that you do so on a 
    ```
 
 Your docker container should now be running the scraper. If you need to detatch from the container in your VM without stopping it, press `CTRL+P` followed by `CTRL+Q`. To reattach to the container and check its progress, run `docker attach mta-alerts`. If that fails, run `docker ps` to see the running containers, copy the container ID, and run `docker attach <container_id>`.
-
-### R Markdown Notebook
-
-If you want to jump straight into the data, download RStudio desktop from [here](https://www.rstudio.com/products/rstudio/download/#download) if you don't have it already and open the `mta-alerts.Rmd` notebook in the `analysis` directory to run the notebook with the data for outages.
-
-Alternatively, you can open the CSV file in your preferred CSV editor but be warned that it is 220,000+ rows of data.
