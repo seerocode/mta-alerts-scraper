@@ -4,6 +4,8 @@ This scraper was built to collect MTA alerts escalator and elevator outage data 
 
 Gothamist writes that only approximately 25% of the MTA's 472 subway stations are accessible with plans to make all stations 100% accessible by 2034. The data collected with this scraper will be used to explore the impact escalator and elevator outages have had across the MTA subway system.
 
+Keeping in mind that if an elevator/escalator is down in a train station that means it may only be partially or completely innaccessible if there are no alternatives during the outage.
+
 📝**NOTE:** *Elevator/escalator service alerts were only released starting 2018.*
 
 ## Project Status
