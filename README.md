@@ -80,7 +80,7 @@ You should see logs generated in a new `app.log` file and a progress bar in your
 
 #### Install and run (Linux virtual machine instructions)
 
-I strongly recommend that if you **MUST** run this scraper, that you do so on a virtual machine. There is no continue option in this scraper so you can't currently scrape from a page you left off at if the script fails. I welcome you to add to open a PR to change that!
+I strongly recommend that if you **MUST** run this scraper, that you do so on a virtual machine. There is no continue option in this scraper so you can't currently scrape from a page you left off at if the script fails. I welcome you to open a PR to change that!
 
 1. Confirm that you have Docker, Python, and pip installed on your virtual machine.
 
