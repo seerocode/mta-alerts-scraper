@@ -16,26 +16,17 @@ from tqdm import tqdm
 
 ########## LOGGING ##########
 logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-                    datefmt='%m-%d %H:%M',
-                    filename='./temp/myapp.log',
-                    filemode='a')
-# define a Handler which writes INFO messages or higher to the sys.stderr
-console = logging.StreamHandler()
-console.setLevel(logging.INFO)
-# set a format which is simpler for console use
-formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
-# tell the handler to use this format
-console.setFormatter(formatter)
-# add the handler to the root logger
-logging.getLogger('').addHandler(console)
+                    format='%(asctime)s %(name)-12s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                    datefmt='%m-%d-%Y %H:%M:%S',
+                    filename='./app.log',
+                    filemode='w')
 
 # Create a new database file:
-engine = create_engine('sqlite:///db/alerts.db', echo=True)
+engine = create_engine('sqlite:///alerts.db', echo=True)
 sqlite_connection = engine.connect()
 
 
-def get_page(year):
+def scrape(year):
     opts = Options()
     opts.headless = True
     driver = webdriver.Firefox(
@@ -47,15 +38,15 @@ def get_page(year):
     driver.get(url)
     logging.info('Web driver retrieved URL: {}'.format(url))
 
-    table_id = "ctl00_ContentPlaceHolder1_gridMessages_ctl00"
+    alerts_table_id = "ctl00_ContentPlaceHolder1_gridMessages_ctl00"
     timeout = 30
 
     try:
         logging.info(
-            'Trying to wait for table with ID "{}" to appear'.format(table_id))
+            'Waiting for table with ID "{}" to render...'.format(alerts_table_id))
         WebDriverWait(driver, timeout).until(
-            EC.visibility_of_element_located((By.ID, table_id)))
-        logging.info('Successfully loaded webpage!')
+            EC.visibility_of_element_located((By.ID, alerts_table_id)))
+        logging.info('Successfully loaded alerts table!')
     except TimeoutException:
         logging.error("Exception occured and webdriver is exiting.")
         driver.quit()
@@ -88,15 +79,14 @@ def get_page(year):
     pages_holder = driver.find_element_by_xpath(
         "//div[contains(@class, 'rgInfoPart')]")
     pages_html = BeautifulSoup(pages_holder.get_attribute('innerHTML'), 'lxml')
-    pages = int(pages_html.select('strong:nth-child(2)')[0].get_text())
+    number_of_pages = int(pages_html.select(
+        'strong:nth-child(2)')[0].get_text())
 
-    for page in tqdm(range(pages)):
+    for page in tqdm(range(number_of_pages)):
         logging.info("You are on page number {}".format(page + 1))
         html = driver.page_source
         time.sleep(randint(5, 15))
-        logging.info("Saving data for {}".format(year))
-        save_data(html, year)
-        logging.info("Data saved! Attempting next page.")
+        save_data(html)
 
         next_page_button = driver.find_element_by_xpath(
             "//button[contains(@title,'Next Page')]")
@@ -108,7 +98,7 @@ def get_page(year):
     print("Data scraping for {} complete!".format(year))
 
 
-def save_data(html, year):
+def save_data(html):
     soup = BeautifulSoup(html, 'lxml')
 
     table_id = "ctl00_ContentPlaceHolder1_gridMessages_ctl00"
@@ -123,20 +113,20 @@ def save_data(html, year):
         '|'.join(values), na=False, case=False)]
 
     if filtered_alerts.size > 0:
-        logging.info(filtered_alerts)
         filtered_alerts.to_sql(
             "mtaalerts", sqlite_connection, if_exists='append')
+        logging.info("Saved found alerts to database.")
     else:
-        print("No NYCT Subway data found for dates")
+        logging.info("No NYCT Subway data found for dates.")
 
 
 def main():
     user_input = len(sys.argv)
     if user_input < 2:
-        print("Please enter a year")
+        print("Please enter a year.")
         SystemExit()
     else:
-        get_page(sys.argv[1])
+        scrape(sys.argv[1])
 
 
 if __name__ == "__main__":
