@@ -241,65 +241,22 @@ summary {
 <p>Note: Elevator/escalator service alerts were only released starting 2018.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShEQkkpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShEQkkpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkobHVicmlkYXRlKVxubGlicmFyeShzdHJpbmdyKVxuXG4jIyBjcmVhdGUgZGF0YWZyYW1lIGZvciBvdXRhZ2VzXG5vdXRhZ2VzIDwtIHJlYWQuY3N2KFwiYWxlcnRzLmNzdlwiKVxub3V0YWdlc1xuXG5gYGAifQ== -->
 <pre class="r"><code>library(DBI)
-library(tidyverse)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2RzIG92ZXJ3cml0dGVuIGJ5ICdkYnBseXInOlxuICBtZXRob2QgICAgICAgICBmcm9tXG4gIHByaW50LnRibF9sYXp5ICAgICBcbiAgcHJpbnQudGJsX3NxbCAgICAgIFxu4pSA4pSAIEF0dGFjaGluZyBwYWNrYWdlcyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgdGlkeXZlcnNlIDEuMy4wIOKUgOKUgFxu4pyTIGdncGxvdDIgMy4zLjMgICAgIOKckyBwdXJyciAgIDAuMy40XG7inJMgdGliYmxlICAzLjAuNSAgICAg4pyTIGRwbHlyICAgMS4wLjNcbuKckyB0aWR5ciAgIDEuMS4yICAgICDinJMgc3RyaW5nciAxLjQuMFxu4pyTIHJlYWRyICAgMS40LjAgICAgIOKckyBmb3JjYXRzIDAuNS4wXG7ilIDilIAgQ29uZmxpY3RzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCB0aWR5dmVyc2VfY29uZmxpY3RzKCkg4pSA4pSAXG54IGRwbHlyOjpmaWx0ZXIoKSBtYXNrcyBzdGF0czo6ZmlsdGVyKClcbnggZHBseXI6OmxhZygpICAgIG1hc2tzIHN0YXRzOjpsYWcoKVxuIn0= -->
-<pre><code>Registered S3 methods overwritten by &#39;dbplyr&#39;:
-  method         from
-  print.tbl_lazy     
-  print.tbl_sql      
-── Attaching packages ─────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
-✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-✓ tibble  3.0.5     ✓ dplyr   1.0.3
-✓ tidyr   1.1.2     ✓ stringr 1.4.0
-✓ readr   1.4.0     ✓ forcats 0.5.0
-── Conflicts ────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-x dplyr::filter() masks stats::filter()
-x dplyr::lag()    masks stats::lag()</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsdWJyaWRhdGUpXG5gYGAifQ== -->
-<pre class="r"><code>library(lubridate)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYbHVicmlkYXRl4oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0cyBhcmUgbWFza2VkIGZyb20g4oCYcGFja2FnZTpiYXNl4oCZOlxuXG4gICAgZGF0ZSwgaW50ZXJzZWN0LCBzZXRkaWZmLCB1bmlvblxuIn0= -->
-<pre><code>
-Attaching package: ‘lubridate’
+library(tidyverse)
+library(lubridate)
+library(stringr)
 
-The following objects are masked from ‘package:base’:
-
-    date, intersect, setdiff, union</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzdHJpbmdyKVxuXG4jIyBDb25uZWN0IHRvIGRiXG5jb24gPC0gZGJDb25uZWN0KGRydj1SU1FMaXRlOjpTUUxpdGUoKSwgZGJuYW1lPVwiYWxlcnRzLmRiXCIpXG5cbmFsZXJ0cyA8LSBkYlJlYWRUYWJsZShjb24sIFwibXRhYWxlcnRzXCIpXG5hbGVydHMgPC0gc2VsZWN0KGFsZXJ0cywgLWMoaW5kZXgsIEFnZW5jeSkpXG5cbmBgYCJ9 -->
-<pre class="r"><code>library(stringr)
-
-## Connect to db
-con &lt;- dbConnect(drv=RSQLite::SQLite(), dbname=&quot;alerts.db&quot;)
-
-alerts &lt;- dbReadTable(con, &quot;mtaalerts&quot;)
-alerts &lt;- select(alerts, -c(index, Agency))
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWxlcnRzIDwtIGFsZXJ0cyAlPiVcbiAgbXV0YXRlKE1lc3NhZ2UuSWQgPSBhcy5pbnRlZ2VyKE1lc3NhZ2UuSWQpICkgJT4lXG4gIG11dGF0ZShEYXRlID0gbWR5X2htKERhdGUpKSAlPiVcbiAgbXV0YXRlKGVsZXZhdG9yX2VzY2FsYXRvcl9pZCA9IHN0cl9tYXRjaChNZXNzYWdlLCBcIihFbGV2YXRvcnxFc2NhbGF0b3IpICgoRUx8RVMpLi4ueD8pXCIpWywzXSkgJT4lXG4gIG11dGF0ZShpc19vdXRfb2Zfc2VydmljZSA9IGdyZXBsKCdvdXRhZ2V8T3V0YWdlJywgU3ViamVjdCkpICU+JVxuICByZWxvY2F0ZShlbGV2YXRvcl9lc2NhbGF0b3JfaWQsIGlzX291dF9vZl9zZXJ2aWNlKVxuXG53cml0ZS5jc3YoYWxlcnRzLFwiYWxlcnRzLmNzdlwiLCByb3cubmFtZXMgPSBGQUxTRSlcblxuYGBgIn0= -->
-<pre class="r"><code>alerts &lt;- alerts %&gt;%
-  mutate(Message.Id = as.integer(Message.Id) ) %&gt;%
-  mutate(Date = mdy_hm(Date)) %&gt;%
-  mutate(elevator_escalator_id = str_match(Message, &quot;(Elevator|Escalator) ((EL|ES)...x?)&quot;)[,3]) %&gt;%
-  mutate(is_out_of_service = grepl(&#39;outage|Outage&#39;, Subject)) %&gt;%
-  relocate(elevator_escalator_id, is_out_of_service)
-
-write.csv(alerts,&quot;alerts.csv&quot;, row.names = FALSE)
+## create dataframe for outages
+outages &lt;- read.csv(&quot;alerts.csv&quot;)
+outages
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTVRBIEFsZXJ0cyAtIEVzY2FsYXRvciBhbmQgRWxldmF0b3IgT3V0YWdlcyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2sgZm9yIE1UQSBhbGVydHMgZXNjYWxhdG9yIGFuZCBlbGV2YXRvciBvdXRhZ2VzIGZyb20gMjAxOCB0byAyMDIwLiBUaGlzIGRhdGEgd2FzIHNjcmFwZWQgZnJvbSB0aGUgW01UQSBBbGVydHMgQXJjaGl2ZV0oaHR0cHM6Ly9teW10YWFsZXJ0cy5jb20vYXJjaGl2ZSkuCgpOb3RlOiBFbGV2YXRvci9lc2NhbGF0b3Igc2VydmljZSBhbGVydHMgd2VyZSBvbmx5IHJlbGVhc2VkIHN0YXJ0aW5nIDIwMTguCgpgYGB7cn0KbGlicmFyeShEQkkpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKbGlicmFyeShzdHJpbmdyKQoKIyMgQ29ubmVjdCB0byBkYgpjb24gPC0gZGJDb25uZWN0KGRydj1SU1FMaXRlOjpTUUxpdGUoKSwgZGJuYW1lPSJhbGVydHMuZGIiKQoKYWxlcnRzIDwtIGRiUmVhZFRhYmxlKGNvbiwgIm10YWFsZXJ0cyIpCmFsZXJ0cyA8LSBzZWxlY3QoYWxlcnRzLCAtYyhpbmRleCwgQWdlbmN5KSkKCmBgYAoKCmBgYHtyIENyZWF0ZSBkYXRhZnJhbWUgZm9yIGFsZXJ0c30KYWxlcnRzIDwtIGFsZXJ0cyAlPiUKICBtdXRhdGUoTWVzc2FnZS5JZCA9IGFzLmludGVnZXIoTWVzc2FnZS5JZCkgKSAlPiUKICBtdXRhdGUoRGF0ZSA9IG1keV9obShEYXRlKSkgJT4lCiAgbXV0YXRlKGVsZXZhdG9yX2VzY2FsYXRvcl9pZCA9IHN0cl9tYXRjaChNZXNzYWdlLCAiKEVsZXZhdG9yfEVzY2FsYXRvcikgKChFTHxFUykuLi54PykiKVssM10pICU+JQogIG11dGF0ZShpc19vdXRfb2Zfc2VydmljZSA9IGdyZXBsKCdvdXRhZ2V8T3V0YWdlJywgU3ViamVjdCkpICU+JQogIHJlbG9jYXRlKGVsZXZhdG9yX2VzY2FsYXRvcl9pZCwgaXNfb3V0X29mX3NlcnZpY2UpCgp3cml0ZS5jc3YoYWxlcnRzLCJhbGVydHMuY3N2Iiwgcm93Lm5hbWVzID0gRkFMU0UpCgpgYGAKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTVRBIEFsZXJ0cyAtIEVzY2FsYXRvciBhbmQgRWxldmF0b3IgT3V0YWdlcyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2sgZm9yIE1UQSBhbGVydHMgZXNjYWxhdG9yIGFuZCBlbGV2YXRvciBvdXRhZ2VzIGZyb20gMjAxOCB0byAyMDIwLiBUaGlzIGRhdGEgd2FzIHNjcmFwZWQgZnJvbSB0aGUgW01UQSBBbGVydHMgQXJjaGl2ZV0oaHR0cHM6Ly9teW10YWFsZXJ0cy5jb20vYXJjaGl2ZSkuCgpOb3RlOiBFbGV2YXRvci9lc2NhbGF0b3Igc2VydmljZSBhbGVydHMgd2VyZSBvbmx5IHJlbGVhc2VkIHN0YXJ0aW5nIDIwMTguCgpgYGB7cn0KbGlicmFyeShEQkkpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKbGlicmFyeShzdHJpbmdyKQoKIyMgY3JlYXRlIGRhdGFmcmFtZSBmb3Igb3V0YWdlcwpvdXRhZ2VzIDwtIHJlYWQuY3N2KCJhbGVydHMuY3N2IikKb3V0YWdlcwoKYGBgCgoK</div>
 
 
 
