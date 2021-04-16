@@ -2,19 +2,27 @@
 
 This scraper was built to collect MTA alerts escalator and elevator outage data from 2018 to 2020. This data was scraped from the [MTA Alerts Archive](https://mymtaalerts.com/archive).
 
+Gothamist writes that only approximately 25% of the MTA's 472 subway stations are accessible with plans to make all stations 100% accessible by 2034. The data collected with this scraper will be used to explore the impact escalator and elevator outages have had across the MTA subway system.
+
+Keeping in mind that if an elevator/escalator is down in a train station that means it may only be partially or completely innaccessible if there are no alternatives during the outage.
+
 📝**NOTE:** *Elevator/escalator service alerts were only released starting 2018.*
 
 ## Project Status
 
+This research is currently in progress.
+
+**To-do:**
+
 - [x] 📔 Scrape MTA escalator and elevator outage alerts
-- [x] 🧹Standardize alerts data to include elevator/escalator ID
-- [ ] 🔪Extract station names from collected outage data
-- [ ] ⏱Derive "time to repair" from collected outage data to understand how long an escalator/elevator remained out of service
-- [ ] 🚊Merge ridership numbers from [turnstile data](http://web.mta.info/developers/turnstile.html)
-- [ ] 📍Map of where outages were experienced over time
-- [ ] 🧱Merge census data (demographics) for neighborhoods where these train stations are located
-- [ ] 📊Summary statistics and exploration
-- [ ] 🪄Further analysis (TBD as project evolves)
+- [x] 🧹 Standardize alerts data to include elevator/escalator ID
+- [ ] 🔪 Extract station names for each row in the collected outage data 
+- [ ] ⏱ Derive "time to repair" from each outage to understand how long an escalator/elevator remained out of service (in total, on average, per station, etc.)
+- [ ] 🚊 Merge ridership numbers from [turnstile data](http://web.mta.info/developers/turnstile.html) to explore possible connections between ridership and outages
+- [ ] 🧱 Merge census data (demographics) for neighborhoods where these train stations are located
+- [ ] 📊 Summary statistics and exploration
+- [ ] 📍 Create map of where outages were experienced and which stations experience the longest average outages over time
+- [ ] 🪄 Further analysis (TBD as research evolves)
 
 ## Installation and Setup Instructions
 
@@ -74,7 +82,7 @@ You should see logs generated in a new `app.log` file and a progress bar in your
 
 #### Install and run (Linux virtual machine instructions)
 
-I strongly recommend that if you **MUST** run this scraper, that you do so on a virtual machine. There is no continue option in this scraper so you can't currently scrape from a page you left off at if the script fails. I welcome you to add to open a PR to change that!
+I strongly recommend that if you **MUST** run this scraper, that you do so on a virtual machine. There is no continue option in this scraper so you can't currently scrape from a page you left off at if the script fails. I welcome you to open a PR to change that!
 
 1. Confirm that you have Docker, Python, and pip installed on your virtual machine.
 
