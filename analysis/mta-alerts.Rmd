@@ -15,7 +15,11 @@ library(stringr)
 
 ## create dataframe for outages
 outages <- read.csv("alerts.csv")
-outages
+
+elevator_escalator_info <- read.csv("stationelesinfo.csv")
+
+outages <- left_join(outages, elevator_escalator_info, 
+              by = c("elevator_escalator_id" = "equipmentno"))
 
 ```
 

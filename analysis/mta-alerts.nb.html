@@ -241,7 +241,7 @@ summary {
 <p>Note: Elevator/escalator service alerts were only released starting 2018.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShEQkkpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkobHVicmlkYXRlKVxubGlicmFyeShzdHJpbmdyKVxuXG4jIyBjcmVhdGUgZGF0YWZyYW1lIGZvciBvdXRhZ2VzXG5vdXRhZ2VzIDwtIHJlYWQuY3N2KFwiYWxlcnRzLmNzdlwiKVxub3V0YWdlc1xuXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShEQkkpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkobHVicmlkYXRlKVxubGlicmFyeShzdHJpbmdyKVxuXG4jIyBjcmVhdGUgZGF0YWZyYW1lIGZvciBvdXRhZ2VzXG5vdXRhZ2VzIDwtIHJlYWQuY3N2KFwiYWxlcnRzLmNzdlwiKVxuXG5lbGV2YXRvcl9lc2NhbGF0b3JfaW5mbyA8LSByZWFkLmNzdihcInN0YXRpb25lbGVzaW5mby5jc3ZcIilcblxub3V0YWdlcyA8LSBsZWZ0X2pvaW4ob3V0YWdlcywgZWxldmF0b3JfZXNjYWxhdG9yX2luZm8sIFxuICAgICAgICAgICAgICBieSA9IGMoXCJlbGV2YXRvcl9lc2NhbGF0b3JfaWRcIiA9IFwiZXF1aXBtZW50bm9cIikpXG5cbndyaXRlLmNzdihhbGVydHMsXCJvdXRhZ2VzLmNzdlwiLCByb3cubmFtZXMgPSBGQUxTRSlcbmBgYCJ9 -->
 <pre class="r"><code>library(DBI)
 library(tidyverse)
 library(lubridate)
@@ -249,14 +249,19 @@ library(stringr)
 
 ## create dataframe for outages
 outages &lt;- read.csv(&quot;alerts.csv&quot;)
-outages
-</code></pre>
+
+elevator_escalator_info &lt;- read.csv(&quot;stationelesinfo.csv&quot;)
+
+outages &lt;- left_join(outages, elevator_escalator_info, 
+              by = c(&quot;elevator_escalator_id&quot; = &quot;equipmentno&quot;))
+
+write.csv(alerts,&quot;outages.csv&quot;, row.names = FALSE)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTVRBIEFsZXJ0cyAtIEVzY2FsYXRvciBhbmQgRWxldmF0b3IgT3V0YWdlcyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2sgZm9yIE1UQSBhbGVydHMgZXNjYWxhdG9yIGFuZCBlbGV2YXRvciBvdXRhZ2VzIGZyb20gMjAxOCB0byAyMDIwLiBUaGlzIGRhdGEgd2FzIHNjcmFwZWQgZnJvbSB0aGUgW01UQSBBbGVydHMgQXJjaGl2ZV0oaHR0cHM6Ly9teW10YWFsZXJ0cy5jb20vYXJjaGl2ZSkuCgpOb3RlOiBFbGV2YXRvci9lc2NhbGF0b3Igc2VydmljZSBhbGVydHMgd2VyZSBvbmx5IHJlbGVhc2VkIHN0YXJ0aW5nIDIwMTguCgpgYGB7cn0KbGlicmFyeShEQkkpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKbGlicmFyeShzdHJpbmdyKQoKIyMgY3JlYXRlIGRhdGFmcmFtZSBmb3Igb3V0YWdlcwpvdXRhZ2VzIDwtIHJlYWQuY3N2KCJhbGVydHMuY3N2IikKb3V0YWdlcwoKYGBgCgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTVRBIEFsZXJ0cyAtIEVzY2FsYXRvciBhbmQgRWxldmF0b3IgT3V0YWdlcyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2sgZm9yIE1UQSBhbGVydHMgZXNjYWxhdG9yIGFuZCBlbGV2YXRvciBvdXRhZ2VzIGZyb20gMjAxOCB0byAyMDIwLiBUaGlzIGRhdGEgd2FzIHNjcmFwZWQgZnJvbSB0aGUgW01UQSBBbGVydHMgQXJjaGl2ZV0oaHR0cHM6Ly9teW10YWFsZXJ0cy5jb20vYXJjaGl2ZSkuCgpOb3RlOiBFbGV2YXRvci9lc2NhbGF0b3Igc2VydmljZSBhbGVydHMgd2VyZSBvbmx5IHJlbGVhc2VkIHN0YXJ0aW5nIDIwMTguCgpgYGB7cn0KbGlicmFyeShEQkkpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKbGlicmFyeShzdHJpbmdyKQoKIyMgY3JlYXRlIGRhdGFmcmFtZSBmb3Igb3V0YWdlcwpvdXRhZ2VzIDwtIHJlYWQuY3N2KCJhbGVydHMuY3N2IikKCmVsZXZhdG9yX2VzY2FsYXRvcl9pbmZvIDwtIHJlYWQuY3N2KCJzdGF0aW9uZWxlc2luZm8uY3N2IikKCm91dGFnZXMgPC0gbGVmdF9qb2luKG91dGFnZXMsIGVsZXZhdG9yX2VzY2FsYXRvcl9pbmZvLCAKICAgICAgICAgICAgICBieSA9IGMoImVsZXZhdG9yX2VzY2FsYXRvcl9pZCIgPSAiZXF1aXBtZW50bm8iKSkKCmBgYAoKCg==</div>
 
 
 

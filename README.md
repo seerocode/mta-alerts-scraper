@@ -16,7 +16,7 @@ This research is currently in progress.
 
 - [x] 📔 Scrape MTA escalator and elevator outage alerts
 - [x] 🧹 Standardize alerts data to include elevator/escalator ID
-- [ ] 🔪 Extract station names for each row in the collected outage data 
+- [x] 🔪 Extract station names for each row in the collected outage data 
 - [ ] ⏱ Derive "time to repair" from each outage to understand how long an escalator/elevator remained out of service (in total, on average, per station, etc.)
 - [ ] 🚊 Merge ridership numbers from [turnstile data](http://web.mta.info/developers/turnstile.html) to explore possible connections between ridership and outages
 - [ ] 🧱 Merge census data (demographics) for neighborhoods where these train stations are located
